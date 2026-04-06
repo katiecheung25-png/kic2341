@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>韓國雙城 8 天 7 夜導航手冊</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;600;800&display=swap');
+body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background-color: #FAF9F6;
+    color: #2C2C2C;
+}
+.hide-scroll::-webkit-scrollbar {
+    display: none;
+}
+.hide-scroll {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.btn-active {
+    background-color: #D4A373;
+    color: white;
+    border-color: #D4A373;
+}
+.btn-inactive {
+    background-color: transparent;
+    color: #6B705C;
+    border-color: #E3D5CA;
+}
+.btn-nav {
+    display: inline-flex;
+    align-items: center;
+    background-color: #6B705C;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+.btn-nav:hover {
+    background-color: #555949;
+    transform: translateY(-1px);
+}
+.time-tag {
+    min-width: 100px;
+    text-align: center;
+}
+</style>
+</head>
+<body class="antialiased min-h-screen pb-12">
+
+    <header class="bg-[#6B705C] text-[#FAF9F6] py-10 px-6 shadow-md border-b-4 border-[#D4A373]">
+        <div class="max-w-5xl mx-auto">
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-2">🇰🇷 韓國雙城導航手冊</h1>
+            <p class="text-lg opacity-90 font-light">釜山首爾 8 天 7 夜互動行程表 (5/9 - 5/16)</p>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 mt-8">
+        
+        <section class="mb-10 bg-[#FFF9F0] p-6 md:p-8 rounded-2xl shadow-sm border border-[#F4E4BA]">
+            <h2 class="text-xl font-bold mb-4 text-[#D4A373]">💡 溫馨提醒</h2>
+            <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-base text-[#555555]">
+                <li class="flex items-start bg-white/50 p-3 rounded-lg">
+                    <span class="mr-3 text-2xl">🎟️</span>
+                    <span><strong>VBP 效期：</strong> 5/9 13:00 啟動，請於 5/11 13:00 前進入最後設施。</span>
+                </li>
+                <li class="flex items-start bg-white/50 p-3 rounded-lg">
+                    <span class="mr-3 text-2xl">🚆</span>
+                    <span><strong>KTX 提醒：</strong> 5/12 前往首爾建議提前 20 分鐘抵達釜山站。</span>
+                </li>
+            </ul>
+        </section>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+            
+            <div class="md:col-span-4 flex flex-col space-y-6">
+                <section class="bg-white p-6 rounded-2xl shadow-sm border border-[#E3D5CA]">
+                    <h3 class="text-lg font-bold mb-4 text-[#6B705C]">📅 選擇日期</h3>
+                    <div class="flex flex-row md:flex-col gap-3 overflow-x-auto hide-scroll pb-2 md:pb-0" id="daySelectors">
+                    </div>
+                </section>
+            </div>
+
+            <div class="md:col-span-8">
+                <section id="detailPanel" class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-[#E3D5CA] min-h-[500px]">
+                </section>
+            </div>
+
+        </div>
+    </main>
+
+<script>
+const tripData = {
+    "9/5": {
+        title: "9/5 (週六) - 入住海雲台與 VBP 啟動",
+        location: "釜山",
+        items: [
+            { icon: "🏨", time: "08:30", name: "海雲台 W Apartment (寄存)", desc: "抵達飯店寄放行李，開始今日行程。", link: "https://naver.me/GUTGfWLX" },
+            { icon: "🥣", time: "09:30", name: "密陽聖代豬肉湯", desc: "享用釜山道地特色早餐。", link: "https://naver.me/5T4ABsWP" },
+            { icon: "🐠", time: "13:00 ★", name: "釜山水族館 Sea Life (VBP)", desc: "正式開啟 VBP 48小時效期。", link: "https://naver.me/FoENALrx" },
+            { icon: "🏨", time: "15:00", name: "飯店 Check-in", desc: "回飯店進房休息。", link: "https://naver.me/GUTGfWLX" },
+            { icon: "🥩", time: "16:00", name: "晚餐：味贊王鹽烤肉", desc: "海雲台周邊人氣烤肉選擇。", link: "https://naver.me/GSDACPH7" },
+            { icon: "🛥️", time: "18:30", name: "鑽石灣遊艇夜景 (VBP)", desc: "需提早 30 分鐘抵達分港換票。", link: "https://naver.me/x7ndUL9U" }
+        ]
+    },
+    "10/5": {
+        title: "10/5 (週日) - 機張郡動感行程",
+        location: "釜山",
+        items: [
+            { icon: "🏎️", time: "11:00", name: "Skyline Luge 釜山 (VBP)", desc: "體驗刺激的斜坡滑車。", link: "https://naver.me/IDFUcLWo" },
+            { icon: "🎡", time: "14:00", name: "釜山樂天世界 (VBP)", desc: "探索大型主題遊樂園設施。", link: "https://naver.me/x9BN8XXI" },
+            { icon: "🛍️", time: "18:00", name: "樂天 Premium Outlets", desc: "購物與美食（位於樂天世界對面）。", link: "https://naver.me/565oX4hX" }
+        ]
+    },
+    "11/5": {
+        title: "11/5 (週一) - VBP 最後衝刺與放鬆",
+        location: "釜山",
+        items: [
+            { icon: "🏙️", time: "11:00", name: "釜山 X the SKY (VBP)", desc: "⚠️ 必須在 13:00 前進入以符合 VBP 效期。", link: "https://naver.me/5vI6fO8z" },
+            { icon: "♨️", time: "12:30", name: "Spa Land 汗蒸幕 (VBP)", desc: "⚠️ 必須在 13:00 前刷卡進入。進入後可停留 4 小時。", link: "https://naver.me/FfMWpYvN" },
+            { icon: "🥣", time: "17:00", name: "晚餐時間", desc: "汗蒸幕結束後，於新世界百貨或海雲台享用晚餐。", link: "https://naver.me/FfMWpYvN" }
+        ]
+    },
+    "12/5": {
+        title: "12/5 (週二) - 釜山前往首爾",
+        location: "釜山/首爾",
+        items: [
+            { icon: "🚖", time: "10:30", name: "移動：海雲台 ➔ 釜山站", desc: "前往 KTX 釜山站。", link: "https://naver.me/G1snW3yM" },
+            { icon: "🚆", time: "12:15", name: "KTX 032 釜山 ➔ 首爾", desc: "預計 14:52 抵達首爾站。", link: "https://naver.me/F7S8mR3M" },
+            { icon: "🏨", time: "15:30", name: "Check-in Amid Hotel", desc: "入住鐘路區飯店。", link: "https://naver.me/xnh0msWm" },
+            { icon: "🍻", time: "20:00", name: "晚餐：布帳馬車街", desc: "體驗鐘路三街夜生活氛圍。", link: "https://naver.me/FOvS6hS8" }
+        ]
+    },
+    "13/5": {
+        title: "13/5 (週三) - 龍山購物與水產市場",
+        location: "首爾",
+        items: [
+            { icon: "🛍️", time: "10:30", name: "龍山 IPARK MALL", desc: "Chiikawa 與玩具動漫周邊。", link: "https://naver.me/5LHhMIaK" },
+            { icon: "🛒", time: "14:00", name: "首爾站樂天超市", desc: "大採購零食伴手禮。", link: "https://naver.me/FfeOlQjt" },
+            { icon: "🦀", time: "16:00", name: "晚餐：鷺梁津水產市場", desc: "現挑長腳蟹、生魚片。", link: "https://naver.me/G58vtOHE" },
+            { icon: "🛍️", time: "19:00", name: "明洞商圈", desc: "逛街補貨、服飾品牌。", link: "https://naver.me/FfMWpYvN" }
+        ]
+    },
+    "14/5": {
+        title: "14/5 (週四) - 聖水潮流與馬場洞韓牛",
+        location: "首爾",
+        items: [
+            { icon: "🍲", time: "11:00", name: "午餐：馬鈴薯排骨湯", desc: "聖水洞必吃排隊名店。", link: "https://naver.me/FfMWpYvN" },
+            { icon: "☕", time: "13:00", name: "探索聖水洞", desc: "Dior 聖水、潮流品牌店面。", link: "https://naver.me/FfMWpYvN" },
+            { icon: "🥩", time: "18:30", name: "晚餐：馬場洞畜產市場", desc: "享受高品質 1++ 韓牛燒烤。", link: "https://naver.me/FfMWpYvN" }
+        ]
+    },
+    "15/5": {
+        title: "15/5 (週五) - 望遠市場美食與弘大",
+        location: "首爾",
+        items: [
+            { icon: "🍗", time: "11:00", name: "望遠市場", desc: "體驗在地市場美食小吃。", link: "https://naver.me/FfMWpYvN" },
+            { icon: "🛍️", time: "14:00", name: "弘大商圈", desc: "逛街、雜貨、潮流服飾。", link: "https://naver.me/FfMWpYvN" },
+            { icon: "🐷", time: "19:00", name: "晚餐：給豚的男人", desc: "知名韓式烤肉。", link: "https://naver.me/FfMWpYvN" }
+        ]
+    },
+    "16/5": {
+        title: "16/5 (週六) - 首爾回程返港",
+        location: "首爾",
+        items: [
+            { icon: "🚌", time: "09:30", name: "6002號機場巴士", desc: "前往仁川機場。", link: null },
+            { icon: "✈️", time: "12:00", name: "大約12點到機場", desc: "需要check-in, 退稅。", link: null },
+            { icon: "✈️", time: "15:25", name: "ICN TO HKG", desc: "返程航班起飛。", link: null }
+        ]
+    }
+};
+
+let currentDay = "9/5";
+
+function initApp() {
+    renderSelectors();
+    renderDetails(currentDay);
+}
+
+function renderSelectors() {
+    const container = document.getElementById('daySelectors');
+    container.innerHTML = '';
+    
+    Object.keys(tripData).forEach(day => {
+        const btn = document.createElement('button');
+        const isActive = day === currentDay;
+        
+        btn.className = `flex-shrink-0 w-32 md:w-full text-left px-5 py-4 rounded-xl border-2 font-bold transition-all duration-200 ${isActive ? 'btn-active shadow-md scale-[1.02]' : 'btn-inactive hover:bg-[#F5EBE4]'}`;
+        btn.innerHTML = `<span class="block text-lg">${day}</span><span class="block text-xs font-normal opacity-80 mt-1">${tripData[day].location}</span>`;
+        
+        btn.onclick = () => {
+            currentDay = day;
+            renderSelectors();
+            renderDetails(day);
+        };
+        container.appendChild(btn);
+    });
+}
+
+function renderDetails(day) {
+    const container = document.getElementById('detailPanel');
+    const data = tripData[day];
+    
+    if (!data) return;
+
+    let html = `
+        <div class="border-b-2 border-[#E3D5CA] pb-4 mb-6">
+            <span class="inline-block px-3 py-1 bg-[#D4A373] text-white text-xs font-bold rounded-full mb-3">${data.location}</span>
+            <h2 class="text-2xl font-extrabold text-[#2C2C2C]">${data.title}</h2>
+        </div>
+        <div class="space-y-6">
+    `;
+    
+    data.items.forEach(item => {
+        html += `
+            <div class="flex flex-col md:flex-row md:items-start bg-[#FAF9F6] p-5 rounded-xl border border-[#E3D5CA] hover:shadow-md transition-shadow">
+                <div class="flex items-center md:flex-col md:items-center mb-4 md:mb-0 md:w-28 md:flex-shrink-0">
+                    <span class="text-3xl mr-3 md:mr-0 md:mb-2">${item.icon}</span>
+                    <span class="time-tag text-sm font-black text-[#D4A373] bg-[#FFF0E6] px-3 py-1.5 rounded-lg border border-[#F4E4BA] shadow-sm tracking-tighter">
+                        ${item.time}
+                    </span>
+                </div>
+                <div class="md:ml-6 flex-grow">
+                    <h4 class="text-lg font-extrabold text-[#2C2C2C] mb-1.5 leading-snug">${item.name}</h4>
+                    <p class="text-sm text-[#666666] ${item.link ? 'mb-4' : ''} leading-relaxed">${item.desc}</p>
+                    ${item.link ? `
+                        <a href="${item.link}" target="_blank" class="btn-nav">
+                            📍 開啟 Naver Map
+                        </a>
+                    ` : ''}
+                </div>
+            </div>
+        `;
+    });
+    
+    html += `</div>`;
+    container.innerHTML = html;
+}
+
+document.addEventListener('DOMContentLoaded', initApp);
+</script>
+</body>
+</html>
